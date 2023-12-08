@@ -18,6 +18,14 @@ def generar_contrasena_segura(longitud, algoritmo_cifrado):
         contrasena_cifrada = cifrado.hexdigest()
         return contrasena, contrasena_cifrada
 
+
+def verificar_contraseña(contraseña, contraseña_cifrada, algoritmo_cifrado):
+    # Verifica si la contraseña introducida en claro (descifrada) coincide con la contraseña cifrada almacenada
+    cifrado = hashlib.new(algoritmo_cifrado)
+    cifrado.update(contraseña.encode('utf-8'))
+    return cifrado.hexdigest() == contraseña_cifrada
+
+
 #Funcion para obtener diferentes algoritmos de cifrado. Para dar a elejir al usuario el que desea
 def obtener_algoritmos_cifrado_disponibles():
     return hashlib.algorithms_guaranteed
@@ -39,7 +47,7 @@ def obtener_longitud_contrasena():
 def obtener_algoritmo_cifrado():
     algoritmos_disponibles = obtener_algoritmos_cifrado_disponibles()
     
-    #Ciclo para reintentarsolicitar la contarseña nuevamente hasta que se cumpla con los paraetros requeridos
+    #Ciclo para reintentar solicitar la contarseña nuevamente hasta que se cumpla con los parametros requeridos
     while True:
         algoritmo_cifrado = input(f"Seleccione un algoritmo de cifrado ({', '.join(algoritmos_disponibles)}): ").lower()
         if algoritmo_cifrado in algoritmos_disponibles:
@@ -57,3 +65,9 @@ contrasena, contrasena_cifrada = generar_contrasena_segura(longitud_contrasena, 
 # Mostrar la contrasena cifrada
 print("Esta es su contraseña cifrada:", contrasena_cifrada)
 print("Esta es su contraseña segura en claro:", contrasena)
+contraseña_usuario = input("Si desea comprobar el algoritmo de descifrado de su contraseña debe introducirla en claro o descifrada a continuacion:")
+
+if verificar_contraseña(contraseña_usuario, contrasena_cifrada, algoritmo_cifrado):
+    print("**********Contraseña válida. Acceso concedido**********")
+else:
+    print("**********Contraseña incorrecta. Acceso denegado**********")

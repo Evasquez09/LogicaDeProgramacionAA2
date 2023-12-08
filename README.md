@@ -9,3 +9,4 @@ El repositorio cuenta con:
 
 # Informacion de uso
 Para probar este codigo fuente debe ejecutar el archivo inicio.py en un CMDER, CMD, Visual Studio o cualquier herramienta que ejecute el entorno python.
+
